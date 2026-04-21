@@ -1,40 +1,200 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+# 🏗️ Mulero Quintero - Catálogo de Materiales de Construcción
 
-## Getting Started
+Plataforma web profesional de catálogo de materiales de construcción desarrollada con Next.js, TypeScript, Prisma y Tailwind CSS.
 
-First, run the development server:
+## ✨ Características
+
+- 📦 Catálogo completo de materiales de construcción organizados por categorías
+- 🎨 Diseño moderno y profesional con Tailwind CSS
+- 📱 Totalmente responsive para dispositivos móviles, tablets y desktop
+- ⚡ Rendimiento optimizado con Next.js
+- 🗂️ Gestión de datos con Prisma ORM y PostgreSQL
+- 🔍 Navegación intuitiva con breadcrumbs
+- 📄 Páginas de detalle de producto con información completa
+
+## 🏗️ Estructura del Proyecto
+
+```
+├── components/          # Componentes reutilizables
+│   ├── Breadcrumb.tsx  # Navegación por migas de pan
+│   ├── CategoryCard.tsx # Tarjeta de categoría
+│   ├── Footer.tsx       # Pie de página
+│   ├── Header.tsx       # Encabezado
+│   ├── Layout.tsx       # Layout principal
+│   └── ProductCard.tsx  # Tarjeta de producto
+├── pages/
+│   ├── index.tsx                    # Página de inicio
+│   ├── categorias.tsx               # Listado de categorías
+│   ├── categoria/[slug]/            # Página de categoría
+│   └── categoria/[slug]/[sub]/      # Páginas de subcategoría y producto
+├── prisma/
+│   ├── schema.prisma                # Esquema de base de datos
+│   └── seed.ts                      # Script para poblar datos
+├── styles/
+│   └── globals.css                  # Estilos globales
+└── lib/
+    └── prisma.ts                    # Cliente Prisma
+```
+
+## 🚀 Guía de Inicio
+
+### Prerrequisitos
+
+- Node.js 18+ 
+- PostgreSQL 12+
+- npm o yarn
+
+### 1. Instalación
+
+```bash
+# Clonar el repositorio (si aplica)
+cd muleroQuintero-web
+
+# Instalar dependencias
+npm install
+```
+
+### 2. Configurar Base de Datos
+
+Crea un archivo `.env.local` en la raíz del proyecto:
+
+```env
+DATABASE_URL="postgresql://usuario:contraseña@localhost:5432/muleroquintero"
+```
+
+### 3. Ejecutar Migraciones
+
+```bash
+# Ejecutar las migraciones de Prisma
+npx prisma migrate deploy
+
+# Generar cliente Prisma
+npm run prisma:generate
+```
+
+### 4. Poblar Base de Datos (Opcional)
+
+Para agregar datos de ejemplo:
+
+```bash
+npm run seed
+```
+
+Esto creará:
+- 13 categorías principales
+- 20+ subcategorías
+- 40+ productos de ejemplo
+
+### 5. Ejecutar en Desarrollo
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+La aplicación estará disponible en: http://localhost:3000
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+## 📦 Dependencias Principales
 
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+- **Next.js 16**: Framework React con SSR
+- **React 19**: Librería de UI
+- **TypeScript**: Tipado estático
+- **Prisma ORM**: Gestión de base de datos
+- **Tailwind CSS**: Utilidades CSS
+- **PostgreSQL**: Base de datos
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
+## 🎨 Paleta de Colores
 
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Azul Primario**: `#1e3a8a` (Profesional, confianza)
+- **Blanco**: `#ffffff` (Limpieza, modernidad)
+- **Gris**: `#6b7280` (Subtítulos, textos secundarios)
+- **Acentos**: Azules y grises para jerarquía visual
 
-## Learn More
+## 📝 Modelos de Base de Datos
 
-To learn more about Next.js, take a look at the following resources:
+### Categoria
+```prisma
+- id: Int (PK)
+- nombre: String
+- slug: String (único)
+- subcategorias: Subcategoria[]
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
+### Subcategoria
+```prisma
+- id: Int (PK)
+- nombre: String
+- slug: String (único)
+- categoria: Categoria (FK)
+- productos: Producto[]
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Producto
+```prisma
+- id: Int (PK)
+- nombre: String
+- slug: String (único)
+- descripcion: String?
+- precio: Float (sin mostrar en UI)
+- imagen: String?
+- subcategoria: Subcategoria (FK)
+```
 
-## Deploy on Vercel
+## 🔧 Comandos Disponibles
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+npm run dev              # Iniciar servidor de desarrollo
+npm run build            # Construir para producción
+npm start               # Iniciar servidor de producción
+npm run lint            # Ejecutar linter ESLint
+npm run prisma:generate # Generar cliente Prisma
+npm run seed            # Poblar base de datos con datos de ejemplo
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+## 🌐 Rutas Principales
+
+- `/` - Página de inicio
+- `/categorias` - Listado de todas las categorías
+- `/categoria/[slug]` - Detalle de categoría con subcategorías
+- `/categoria/[slug]/[sub]` - Subcategoría con productos
+- `/categoria/[slug]/[sub]/[producto]` - Detalle de producto
+
+## 📱 Características de Diseño
+
+- **Header Profesional**: Logo, navegación y branding
+- **Footer Completo**: Información de contacto, enlaces y derechos
+- **Breadcrumbs**: Navegación clara del usuario
+- **Tarjetas de Producto**: Diseño moderno con hover effects
+- **Grid Responsive**: Se adapta a cualquier tamaño de pantalla
+- **Colores Consistentes**: Paleta profesional en toda la app
+- **Iconos Emojis**: Visualización rápida de categorías
+
+## ✅ Checklist de Mejoras Implementadas
+
+- ✅ Componentes reutilizables y modular
+- ✅ Layout profesional con header y footer
+- ✅ Navegación con breadcrumbs
+- ✅ Página de inicio atractiva con CTA
+- ✅ Listado de categorías mejorado
+- ✅ Página de categoría con subcategorías
+- ✅ Grid de productos responsive
+- ✅ Página de detalle de producto completa
+- ✅ Datos de ejemplo realistas
+- ✅ Estilos profesionales con Tailwind
+- ✅ Información de contacto integrada
+- ✅ Responsive design móvil-first
+
+## 🤝 Contacto
+
+Para preguntas sobre el catálogo:
+- 📞 +34 000 000 000
+- 📧 info@muleroquintero.es
+- 📍 Madrid, España
+
+## 📄 Licencia
+
+Este proyecto es propiedad de Mulero Quintero.
+
+---
+
+**Versión**: 1.0.0  
+**Última actualización**: 2026-04-21
